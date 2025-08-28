@@ -4,13 +4,20 @@ import co.edu.poli.exception.ClientNotFoundException;
 import co.edu.poli.exception.IdDuplicadoException;
 import co.edu.poli.exception.InvalidDataException;
 import co.edu.poli.model.Client;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 /**
  * Service for customer-related business logic.
  * This class is responsible for registering, searching and listing customers.
+ * <p>
+ *     The {@code @Service} annotation marks this class as a Spring service component.
+ *     This allows Spring to automatically detect it and manage ist lifecycle,
+ *     which facilitates dependency injection.
+ * </p>
  * */
+@Service
 public class ClientService {
     private Map<String, Client> clients;
 
