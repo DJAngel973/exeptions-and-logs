@@ -13,29 +13,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class orderSystem {
-    private Map<String, Client> clients;
+public class OrderSystem {
+
     private Map<String, Order> orders;
 
-    public orderSystem(Map<String, Client> clients, Map<String, Order> orders) {
+    public OrderSystem(Map<String, Client> clients, Map<String, Order> orders) {
         this.clients = clients;
         this.orders = orders;
     }
 
-    /**
-     * Registra un nuevo cliente en el sistema.
-     */
-    public void registerClient(Client client){
-        if(client == null || client.getId() == null || client.getId().trim().isEmpty() || client.getName() == null ||
-        client.getName().trim().isEmpty() || client.getEmail() == null || client.getEmail().trim().isEmpty()) {
-            throw new InvalidDataException("Datos del cliente incompletos o inválidos.");
-        }
-        if (clients.containsKey(client.getId())){
-            throw new IdDuplicadoException(String.format("El cliente con ID %s ya existe",client.getId()));
-        }
-        clients.put(client.getId(), client);
-        System.out.printf("Cliente registrado exitosamente: %s (Id: %s)",client.getName(), client.getId());
+    public OrderSystem() {
+        this.clients = clients;
+        this.orders = orders;
     }
+
+
 
     /**
      * Crea un nuevo pedido para un cliente existente.
@@ -57,20 +49,7 @@ public class orderSystem {
         return newOrder;
     }
 
-    /**
-     * Buscar un cliente por su ID.
-     * Search a client for ID.
-     * */
-    public Client searchClient(String id) throws ClientNotFoundException {
-        if (id == null || id.trim().isEmpty()) {
-            throw new InvalidDataException("El ID del cliente no puede ser nulo o vacío.");
-        }
-        Client client = clients.get(id);
-        if (client == null) {
-            throw new ClientNotFoundException(String.format("Cliente con ID %s no encontrado.",id));
-        }
-        return client;
-    }
+
 
     /**
      * Buscar un pedido por su ID.
@@ -107,18 +86,7 @@ public class orderSystem {
         return ordersClient;
     }
 
-    /**
-     * Listar todos los clientes.
-     * */
-    public void listAllClients() {
-        if (clients.isEmpty()) {
-            System.out.println("No hay clientes registrados.");
-            return;
-        }
-        System.out.println("\n------ Clientes registrados ------");
-        clients.values().forEach(System.out::println);
-        System.out.println("----------------------------------");
-    }
+
 
     /**
      * Listar todos los pedidos.
