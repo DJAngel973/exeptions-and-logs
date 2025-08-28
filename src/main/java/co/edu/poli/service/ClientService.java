@@ -7,6 +7,7 @@ import co.edu.poli.model.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -70,14 +71,16 @@ public class ClientService {
 
     /**
      * List all clients registered in the system.
+     * @return A list of all clients.
      * */
-    public void listAllClients() {
+    public List<Client> listAllClients() {
         if (clients.isEmpty()) {
             System.out.println("No hay clientes registrados.");
-            return;
+            return List.of();
         }
         System.out.println("\n------ Clientes registrados ------");
         clients.values().forEach(System.out::println);
         System.out.println("----------------------------------");
+        return List.copyOf(clients.values());
     }
 }
