@@ -4,6 +4,7 @@ import co.edu.poli.exception.ClientNotFoundException;
 import co.edu.poli.exception.IdDuplicadoException;
 import co.edu.poli.exception.InvalidDataException;
 import co.edu.poli.model.Client;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -21,10 +22,12 @@ import java.util.Map;
 public class ClientService {
     private Map<String, Client> clients;
 
+    @Autowired
     public ClientService(){
         this.clients = clients;
     }
 
+    @Autowired
     public ClientService(Map<String, Client> clients){
         this.clients = clients;
     }

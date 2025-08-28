@@ -34,6 +34,7 @@ public class OrderService {
         this.clientService = clientService;
     }
 
+    @Autowired
     public OrderService() {
         this.orders = orders;
         this.clientService = clientService;
