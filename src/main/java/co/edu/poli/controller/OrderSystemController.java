@@ -6,6 +6,7 @@ import co.edu.poli.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,13 +31,13 @@ public class OrderSystemController {
     }
 
     /**
-     * Example endpoint for registering a client.
-     * In a real-world application, a POST would be used and the data would be received in the request body.
+     * Endpoint to register a new client.
+     * The client data is received in the request body as a JSON object.
+     * @param client The Client object from the request body.
      * @return A message indicating success.
      */
     @PostMapping("/api/clientes/registrar")
-    public String registerClient() {
-        Client client = new Client("J001", "Jose Salazar", "jose.98@gmail.com");
+    public String registerClient(@RequestBody Client client) {
         clientService.registerClient(client);
         return "Cliente registrado exitosamente: " + client.getName();
     }
