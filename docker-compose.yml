@@ -7,7 +7,7 @@ services:
     depends_on:
       - db
     environment:
-      # Conecta la aplicación a la base de datos MySQL usando variables de entorno
+      # Connect the application to the MySQL database using environment variables.
       - SPRING_DATASOURCE_URL=${DB_URL}
       - SPRING_DATASOURCE_USERNAME=${DB_USER_NAME}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
@@ -30,6 +30,6 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     networks:
       - app-network
-      -
+
 networks:
   app-network:
