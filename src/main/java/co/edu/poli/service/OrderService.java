@@ -25,17 +25,11 @@ import java.util.UUID;
  * */
 @Service
 public class OrderService {
-    private Map<String, Order> orders;
-    private ClientService clientService;
+    private final Map<String, Order> orders;
+    private final ClientService clientService;
 
     @Autowired
     public OrderService(Map<String, Order> orders, ClientService clientService) {
-        this.orders = orders;
-        this.clientService = clientService;
-    }
-
-    @Autowired
-    public OrderService() {
         this.orders = orders;
         this.clientService = clientService;
     }
@@ -62,7 +56,6 @@ public class OrderService {
         }
         Order newOrder = new Order(orderId, clientId, LocalDate.now(),total, details);
         orders.put(orderId, newOrder);
-        System.out.printf("Pedido %s creado exitosamente para el cliente %s.", newOrder.getId(), clientId);
         return newOrder;
     }
 
@@ -106,14 +99,9 @@ public class OrderService {
 
     /**
      * List all orders registered in the system.
+     * @return A list of all orders.
      * */
-    public void listAllOrders(){
-        if (orders.isEmpty()) {
-            System.out.println("No hay pedidos registrados.");
-            return;
-        }
-        System.out.println("\n------ Pedidos registrados ------");
-        orders.values().forEach(System.out::println);
-        System.out.println("-----------------------------------");
+    public List<Order> listAllOrders(){
+       return new ArrayList<>(orders.values());
     }
 }

@@ -21,12 +21,7 @@ import java.util.Map;
  * */
 @Service
 public class ClientService {
-    private Map<String, Client> clients;
-
-    @Autowired
-    public ClientService(){
-        this.clients = clients;
-    }
+    private final Map<String, Client> clients;
 
     @Autowired
     public ClientService(Map<String, Client> clients){
@@ -74,13 +69,6 @@ public class ClientService {
      * @return A list of all clients.
      * */
     public List<Client> listAllClients() {
-        if (clients.isEmpty()) {
-            System.out.println("No hay clientes registrados.");
-            return List.of();
-        }
-        System.out.println("\n------ Clientes registrados ------");
-        clients.values().forEach(System.out::println);
-        System.out.println("----------------------------------");
         return List.copyOf(clients.values());
     }
 }
