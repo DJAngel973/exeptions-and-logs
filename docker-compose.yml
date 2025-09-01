@@ -1,0 +1,35 @@
+services:
+  app:
+    build: .
+    container_name: inventory-manager-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      # Conecta la aplicación a la base de datos MySQL usando variables de entorno
+      - SPRING_DATASOURCE_URL=${DB_URL}
+      - SPRING_DATASOURCE_USERNAME=${DB_USER_NAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0
+    container_name: BDPoliMysql
+    restart: always
+    ports:
+      - "3317:3306"
+    volumes:
+      # Mapea un volumen local para asegurar la persistencia de los datos
+      - "${DB_VOLUME_PATH}:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - app-network
+      -
+networks:
+  app-network:
