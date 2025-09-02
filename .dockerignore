@@ -1,0 +1,37 @@
+### Maven ###
+target/
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+.project
+
+### Eclipse ###
+.classpath
+.project
+.settings/
+.buildpath
+
+### VS Code ###
+.vscode/
+
+### Misc ###
+*.log
+*.log.*
+build/
+.mvn/wrapper/maven-wrapper.jar
+!mvnw
+!mvnw.cmd

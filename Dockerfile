@@ -4,8 +4,16 @@ FROM openjdk:21-jdk-slim AS builder
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the project files (including pom.xml)
-COPY . /app
+# Copy Maven wrapper files and pom.xml first for better caching
+COPY pom.xml .
+COPY mvnw .
+COPY .mvn .mvn
+
+# Copy the rest of the project files
+COPY . .
+
+# Otorga permisos de ejecución al script mvnw
+RUN chmod +x ./mvnw
 
 # Build the project using Maven
 # The -DskipTests=true option is to skip tests during build.
@@ -14,7 +22,7 @@ RUN ./mvnw clean package -DskipTests=true -Dmaven.wagon.http.ssl.insecure=true
 
 # --- Execution stage (Runtime Stage) ---
 # Use a lighter image for execution to reduce the container size.
-FROM openjdk:21-jre-slim
+FROM openjdk:21-slim
 
 # Copy the generated JAR file from the 'builder' stage to this new image.
 COPY --from=builder /app/target/*.jar app.jar
