@@ -15,13 +15,15 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: bd_inventario
+    container_name: BDPoliMysql
     restart: always
     ports:
       - "3317:3306"
     volumes:
       # Mapea un volumen local para asegurar la persistencia de los datos
       - "${DB_VOLUME_PATH}:/var/lib/mysql"
+      # Este volumen monta el script init.sql para la inicialización de la base de datos
+      - "./docker/init.sql:/docker-entrypoint-initdb.d/init.sql"
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -29,9 +31,10 @@ services:
       - app-network
     healthcheck: # <-- Agrega esto para verificar la salud del contenedor
       # El comando 'mysqladmin ping' verifica si el servidor está en línea.
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}" ]
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p${MYSQL_ROOT_PASSWORD}" ]
       timeout: 20s
       retries: 10
+      start_period: 30s
 
 networks:
   app-network:
