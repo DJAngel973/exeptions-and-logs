@@ -15,7 +15,7 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: BDPoliMysql
+    container_name: inventory-BD
     restart: always
     ports:
       - "3317:3306"
