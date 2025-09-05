@@ -1,9 +1,11 @@
 package co.edu.poli.controller;
 
-import co.edu.poli.model.Client;
+import co.edu.poli.entity.ClientEntity;
 import co.edu.poli.service.ClientService;
 import co.edu.poli.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,9 +39,9 @@ public class OrderSystemController {
      * @return A message indicating success.
      */
     @PostMapping("/api/clientes/registrar")
-    public String registerClient(@RequestBody Client client) {
+    public ResponseEntity<String> registerClient (@RequestBody ClientEntity client) {
         clientService.registerClient(client);
-        return "Cliente registrado exitosamente: " + client.getName();
+        return new ResponseEntity<>("Cliente registrado exitosamente: " + client.getName(), HttpStatus.CREATED);
     }
 
     /**
@@ -47,7 +49,7 @@ public class OrderSystemController {
      * @return A list of all clients.
      */
     @GetMapping("/api/clientes")
-    public List<Client> listClients() {
-        return List.copyOf(clientService.listAllClients());
+    public List<ClientEntity> listClients() {
+        return clientService.listAllClients();
     }
 }
