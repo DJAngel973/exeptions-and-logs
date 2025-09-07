@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
+ *
  * Controller for handling customer and order requests.
  * <p>
  *     The {@code @RestController} annotation marks this class as a Spring controller.
@@ -40,7 +41,9 @@ public class OrderSystemController {
      */
     @PostMapping("/api/clientes/registrar")
     public ResponseEntity<String> registerClient (@RequestBody ClientEntity client) {
+        // The service now works with ClientEntity
         clientService.registerClient(client);
+        // Return a better response
         return new ResponseEntity<>("Cliente registrado exitosamente: " + client.getName(), HttpStatus.CREATED);
     }
 
@@ -50,6 +53,7 @@ public class OrderSystemController {
      */
     @GetMapping("/api/clientes")
     public List<ClientEntity> listClients() {
+        // The service now returns a list of ClientEntity
         return clientService.listAllClients();
     }
 }
