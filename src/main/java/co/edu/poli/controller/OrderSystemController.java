@@ -42,7 +42,7 @@ public class OrderSystemController {
      * @param client The Client object from the request body.
      * @return A message indicating success.
      */
-    @PostMapping("/api/clientes/registrar")
+    @PostMapping("/registrar")
     public ResponseEntity<String> registerClient (@RequestBody ClientEntity client) {
         log.info("Iniciando registro de cliente");
         try {
@@ -66,9 +66,16 @@ public class OrderSystemController {
      * Example endpoint to list all clients.
      * @return A list of all clients.
      */
-    @GetMapping("/api/clientes")
-    public List<ClientEntity> listClients() {
-        // The service now returns a list of ClientEntity
-        return clientService.listAllClients();
+    @GetMapping
+    public ResponseEntity<List<ClientEntity>> listClients() {
+        log.info("Solicitud para listar todos los clientes");
+        try {
+            List<ClientEntity> clients = clientService.listAllClients();
+            log.info("Se han recuperado {} clientes.", clients.size());
+            return new ResponseEntity<>(clients, HttpStatus.OK);
+        }catch (Exception err) {
+            log.error("Error al listar clientes: {}", err.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // 500
+        }
     }
 }
