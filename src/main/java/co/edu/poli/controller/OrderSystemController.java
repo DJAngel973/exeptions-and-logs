@@ -2,6 +2,7 @@ package co.edu.poli.controller;
 
 import co.edu.poli.entity.ClientEntity;
 import co.edu.poli.exception.IdDuplicadoException;
+import co.edu.poli.exception.InvalidDataException;
 import co.edu.poli.service.ClientService;
 import co.edu.poli.service.OrderService;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,9 @@ public class OrderSystemController {
         }catch (IdDuplicadoException err) {
             log.error("Error al registrar cliente: {}", err.getMessage());
             return new ResponseEntity<>(err.getMessage(), HttpStatus.CONFLICT); // 409
+        }catch (InvalidDataException err) {
+            log.error("Error al registrar el cliente: {}", err.getMessage());
+            return new ResponseEntity<>(err.getMessage(), HttpStatus.BAD_REQUEST); // 400
         }
 
 
