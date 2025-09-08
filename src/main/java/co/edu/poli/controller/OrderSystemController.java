@@ -56,9 +56,10 @@ public class OrderSystemController {
         }catch (InvalidDataException err) {
             log.error("Error al registrar el cliente: {}", err.getMessage());
             return new ResponseEntity<>(err.getMessage(), HttpStatus.BAD_REQUEST); // 400
+        }catch (Exception err) {
+            log.error("Error inesperado al registrar cliente: {}", err.getMessage());
+            return new ResponseEntity<>("Error interno del servidor.", HttpStatus.INTERNAL_SERVER_ERROR); // 500
         }
-
-
     }
 
     /**
