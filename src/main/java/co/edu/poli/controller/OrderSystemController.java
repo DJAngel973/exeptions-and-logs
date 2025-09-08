@@ -1,17 +1,17 @@
 package co.edu.poli.controller;
 
 import co.edu.poli.entity.ClientEntity;
+import co.edu.poli.exception.IdDuplicadoException;
 import co.edu.poli.service.ClientService;
 import co.edu.poli.service.OrderService;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,7 +23,9 @@ import java.util.List;
  * </p>
  * */
 @RestController
+@RequestMapping("api/clientes")
 public class OrderSystemController {
+    private static final Logger log = LoggerFactory.getLogger(OrderSystemController.class);
     private final ClientService clientService;
     private final OrderService orderService;
 
@@ -41,10 +43,18 @@ public class OrderSystemController {
      */
     @PostMapping("/api/clientes/registrar")
     public ResponseEntity<String> registerClient (@RequestBody ClientEntity client) {
-        // The service now works with ClientEntity
-        clientService.registerClient(client);
-        // Return a better response
-        return new ResponseEntity<>("Cliente registrado exitosamente: " + client.getName(), HttpStatus.CREATED);
+        log.info("Iniciando registro de cliente");
+        try {
+            // The service now works with ClientEntity
+            clientService.registerClient(client);
+            // Return a better response
+            return new ResponseEntity<>("Cliente registrado exitosamente: " + client.getName(), HttpStatus.CREATED);
+        }catch (IdDuplicadoException err) {
+            log.error("Error al registrar cliente: {}", err.getMessage());
+            return new ResponseEntity<>(err.getMessage(), HttpStatus.CONFLICT); // 409
+        }
+
+
     }
 
     /**
