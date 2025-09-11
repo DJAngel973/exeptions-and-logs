@@ -22,8 +22,8 @@ services:
     volumes:
       # Mapea un volumen local para asegurar la persistencia de los datos
       - "${DB_VOLUME_PATH}:/var/lib/mysql"
-      # Este volumen monta el script init.sql para la inicialización de la base de datos
-      - "./docker/init.sql:/docker-entrypoint-initdb.d/init.sql"
+      # Este volumen monta el script V1__init.sql para la inicialización de la base de datos
+      - "./docker/V1__init.sql:/docker-entrypoint-initdb.d/V1__init.sql"
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}

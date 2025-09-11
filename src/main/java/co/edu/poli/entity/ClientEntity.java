@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -41,6 +43,12 @@ public class ClientEntity {
      * */
     @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    /**
+     * The date the client was registered.
+     * */
+    @Column(name = "registration_date", nullable = false)
+    private LocalDate registrationDate;
 
     /**
      * The list of orders belonging to this customer.

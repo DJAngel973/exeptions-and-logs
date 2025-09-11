@@ -1,5 +1,5 @@
 --
--- File: init.sql
+-- File: V1__init.sql
 -- Description: Script for database initialization.
 --
 
