@@ -1,18 +1,21 @@
 package co.edu.poli.controller;
 
+import co.edu.poli.DTO.ClientResponseDTO;
 import co.edu.poli.entity.ClientEntity;
 import co.edu.poli.exception.IdDuplicadoException;
 import co.edu.poli.exception.InvalidDataException;
 import co.edu.poli.service.ClientService;
 import co.edu.poli.service.OrderService;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import co.edu.poli.DTO.ClientCreationDTO;
 
 import java.util.List;
-import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -37,19 +40,19 @@ public class OrderSystemController {
     }
 
     /**
-     * Endpoint to register a new client.
+     * Endpoint to register a new client using a DTO..
      * The client data is received in the request body as a JSON object.
-     * @param client The Client object from the request body.
+     * @param clientDTO The Client object from the request body.
      * @return A message indicating success.
      */
     @PostMapping("/registrar")
-    public ResponseEntity<String> registerClient (@RequestBody ClientEntity client) {
+    public ResponseEntity<String> registerClient (@RequestBody ClientCreationDTO clientDTO) {
         log.info("Iniciando registro de cliente");
         try {
             // The service now works with ClientEntity
-            clientService.registerClient(client);
+            clientService.registerClient(clientDTO);
             // Return a better response
-            return new ResponseEntity<>("Cliente registrado exitosamente: " + client.getName(), HttpStatus.CREATED);
+            return new ResponseEntity<>("Cliente registrado exitosamente: " + clientDTO.getName(), HttpStatus.CREATED);
         }catch (IdDuplicadoException err) {
             log.error("Error al registrar cliente: {}", err.getMessage());
             return new ResponseEntity<>(err.getMessage(), HttpStatus.CONFLICT); // 409
@@ -64,15 +67,22 @@ public class OrderSystemController {
 
     /**
      * Example endpoint to list all clients.
+     * Returns a list of ClientResponseDTO objects to avoid exposing the database entity.
      * @return A list of all clients.
      */
     @GetMapping
-    public ResponseEntity<List<ClientEntity>> listClients() {
+    public ResponseEntity<List<ClientResponseDTO>> listClients() {
         log.info("Solicitud para listar todos los clientes");
         try {
             List<ClientEntity> clients = clientService.listAllClients();
             log.info("Se han recuperado {} clientes.", clients.size());
-            return new ResponseEntity<>(clients, HttpStatus.OK);
+
+            // Map each ClientEntity to a ClientResponseDto using the Stream API
+            List<ClientResponseDTO> responseList = clients.stream()
+                    .map(client -> new ClientResponseDTO(client.getId(), client.getName(), client.getEmail(), client.getRegistrationDate()))
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(responseList, HttpStatus.OK);
         }catch (Exception err) {
             log.error("Error al listar clientes: {}", err.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // 500
