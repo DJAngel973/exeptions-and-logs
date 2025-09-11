@@ -1,11 +1,13 @@
 package co.edu.poli.service;
 
+import co.edu.poli.entity.ClientEntity;
 import co.edu.poli.exception.ClientNotFoundException;
 import co.edu.poli.exception.IdDuplicadoException;
 import co.edu.poli.exception.InvalidDataException;
 import co.edu.poli.exception.OrderNotFoundException;
-import co.edu.poli.model.Client;
 import co.edu.poli.model.Order;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,7 @@ import java.util.UUID;
  * */
 @Service
 public class OrderService {
+    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
     private final Map<String, Order> orders;
     private final ClientService clientService;
 
@@ -45,17 +48,21 @@ public class OrderService {
      * @throws IdDuplicadoException if a duplicate order ID is generated.
      * */
     public Order createOrder(String clientId, Double total, List<String> details) throws ClientNotFoundException {
+        log.debug("Intentando crear un nuevo pedido para el cliente {}", clientId);
         if (clientId == null || clientId.trim().isEmpty() || total <= 0 || details == null || details.isEmpty()) {
+            log.error("Datos de pedido inválidos para el cliente {}", clientId);
             throw new InvalidDataException("Datos del pedido incompletos o inválidos.");
         }
-        Client existingClient = clientService.searchClient(clientId);
+        ClientEntity existingClient = clientService.searchClient(clientId);
 
         String orderId = UUID.randomUUID().toString(); // Genera un ID único para el pedido.
         if (orders.containsKey(orderId)) { // Buena práctica verificar.
+            log.warn("ID de pedido duplicado generado: {}", orderId);
             throw new IdDuplicadoException("ID del pedido generado duplicado. Intente de nuevo.");
         }
         Order newOrder = new Order(orderId, clientId, LocalDate.now(),total, details);
         orders.put(orderId, newOrder);
+        log.info("Pedido {} creado exitosamente para el cliente {}", orderId, clientId);
         return newOrder;
     }
 
@@ -66,13 +73,17 @@ public class OrderService {
      * @throws OrderNotFoundException if the order is not found.
      * */
     public Order searchOrder(String id) throws OrderNotFoundException {
+        log.debug("Buscando pedido con ID: {}", id);
         if (id == null || id.trim().isEmpty()) {
+            log.error("ID de pedido nulo o vació en la búsqueda.");
             throw new OrderNotFoundException("El ID del pedido no puede ser nulo o vacío.");
         }
         Order order = orders.get(id);
         if (order == null) {
+            log.warn("Pedido con ID {} no encontrado.", id);
             throw new OrderNotFoundException(String.format("El pedido con ID %s no encontrado.", id));
         }
+        log.info("Pedido con ID {} encontrado exitosamente.", id);
         return order;
     }
 
@@ -83,7 +94,9 @@ public class OrderService {
      * @throws ClientNotFoundException if the customer does not exist.
      * */
     public List<Order> searchOrdersClient(String clientId) throws ClientNotFoundException {
+        log.debug("Buscando pedido para el cliente con ID: {}", clientId);
         if (clientId == null || clientId.trim().isEmpty()) {
+            log.error("ID de cliente nulo o vació en la búsqueda de pedidos.");
             throw new ClientNotFoundException("El ID del cliente no puede ser nulo o vacío.");
         }
         clientService.searchClient(clientId);
@@ -94,6 +107,7 @@ public class OrderService {
                 ordersClient.add(order);
             }
         }
+        log.info("Se encontraron {} pedidos para el cliente con ID {}", ordersClient.size(), clientId);
         return ordersClient;
     }
 
@@ -102,6 +116,7 @@ public class OrderService {
      * @return A list of all orders.
      * */
     public List<Order> listAllOrders(){
+        log.info("Listando todos los pedidos.");
        return new ArrayList<>(orders.values());
     }
 }
