@@ -4,6 +4,8 @@ import co.edu.poli.entity.ClientEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * Repository interface for managing persistence operations for the {@link ClientEntity}.
  * <p>
@@ -21,4 +23,14 @@ import org.springframework.stereotype.Repository;
  * */
 @Repository
 public interface ClientRepository extends JpaRepository<ClientEntity, String> {
+
+    /**
+     * Finds a client by their email address.
+     * <p>
+     *     Spring Data JPA automatically generates the query for this method.
+     * </p>
+     * @param email The email address of the client.
+     * @return An {@link Optional} containing the found client, or empty if not found.
+     * */
+    Optional<ClientEntity> findByEmail(String email);
 }
