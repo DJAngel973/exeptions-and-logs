@@ -5,7 +5,7 @@ import co.edu.poli.exception.ClientNotFoundException;
 import co.edu.poli.exception.IdDuplicadoException;
 import co.edu.poli.exception.InvalidDataException;
 import co.edu.poli.exception.OrderNotFoundException;
-import co.edu.poli.model.Order;
+import co.edu.poli.DTO.ClientResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +28,11 @@ import java.util.UUID;
 @Service
 public class OrderService {
     private static final Logger log = LoggerFactory.getLogger(OrderService.class);
-    private final Map<String, Order> orders;
+    private final Map<String, ClientResponseDTO> orders;
     private final ClientService clientService;
 
     @Autowired
-    public OrderService(Map<String, Order> orders, ClientService clientService) {
+    public OrderService(Map<String, ClientResponseDTO> orders, ClientService clientService) {
         this.orders = orders;
         this.clientService = clientService;
     }
@@ -47,7 +47,7 @@ public class OrderService {
      * @throws ClientNotFoundException if the customer cannot be found.
      * @throws IdDuplicadoException if a duplicate order ID is generated.
      * */
-    public Order createOrder(String clientId, Double total, List<String> details) throws ClientNotFoundException {
+    public ClientResponseDTO createOrder(String clientId, Double total, List<String> details) throws ClientNotFoundException {
         log.debug("Intentando crear un nuevo pedido para el cliente {}", clientId);
         if (clientId == null || clientId.trim().isEmpty() || total <= 0 || details == null || details.isEmpty()) {
             log.error("Datos de pedido inválidos para el cliente {}", clientId);
@@ -60,7 +60,7 @@ public class OrderService {
             log.warn("ID de pedido duplicado generado: {}", orderId);
             throw new IdDuplicadoException("ID del pedido generado duplicado. Intente de nuevo.");
         }
-        Order newOrder = new Order(orderId, clientId, LocalDate.now(),total, details);
+        ClientResponseDTO newOrder = new ClientResponseDTO(orderId, clientId, LocalDate.now(),total, String.join(", ", details));
         orders.put(orderId, newOrder);
         log.info("Pedido {} creado exitosamente para el cliente {}", orderId, clientId);
         return newOrder;
@@ -72,13 +72,13 @@ public class OrderService {
      * @return The found order object.
      * @throws OrderNotFoundException if the order is not found.
      * */
-    public Order searchOrder(String id) throws OrderNotFoundException {
+    public ClientResponseDTO searchOrder(String id) throws OrderNotFoundException {
         log.debug("Buscando pedido con ID: {}", id);
         if (id == null || id.trim().isEmpty()) {
             log.error("ID de pedido nulo o vació en la búsqueda.");
             throw new OrderNotFoundException("El ID del pedido no puede ser nulo o vacío.");
         }
-        Order order = orders.get(id);
+        ClientResponseDTO order = orders.get(id);
         if (order == null) {
             log.warn("Pedido con ID {} no encontrado.", id);
             throw new OrderNotFoundException(String.format("El pedido con ID %s no encontrado.", id));
@@ -93,7 +93,7 @@ public class OrderService {
      * @return A list of the customer's orders.
      * @throws ClientNotFoundException if the customer does not exist.
      * */
-    public List<Order> searchOrdersClient(String clientId) throws ClientNotFoundException {
+    public List<ClientResponseDTO> searchOrdersClient(String clientId) throws ClientNotFoundException {
         log.debug("Buscando pedido para el cliente con ID: {}", clientId);
         if (clientId == null || clientId.trim().isEmpty()) {
             log.error("ID de cliente nulo o vació en la búsqueda de pedidos.");
@@ -101,9 +101,9 @@ public class OrderService {
         }
         clientService.searchClient(clientId);
 
-        List<Order> ordersClient = new ArrayList<>();
-        for (Order order : orders.values()) {
-            if (order.getClientId().equals(clientId)){
+        List<ClientResponseDTO> ordersClient = new ArrayList<>();
+        for (ClientResponseDTO order : orders.values()) {
+            if (order.getId().equals(clientId)){
                 ordersClient.add(order);
             }
         }
@@ -115,7 +115,7 @@ public class OrderService {
      * List all orders registered in the system.
      * @return A list of all orders.
      * */
-    public List<Order> listAllOrders(){
+    public List<ClientResponseDTO> listAllOrders(){
         log.info("Listando todos los pedidos.");
        return new ArrayList<>(orders.values());
     }

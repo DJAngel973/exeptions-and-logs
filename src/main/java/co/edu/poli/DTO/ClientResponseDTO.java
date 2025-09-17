@@ -25,6 +25,7 @@ import java.time.LocalDate;
 public class ClientResponseDTO {
     private String id;
     private String name;
-    private String email;
-    private LocalDate registrationDate;
+    private LocalDate date;
+    private Double total;
+    private String details;
 }
