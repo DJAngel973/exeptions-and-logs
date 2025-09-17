@@ -1,6 +1,6 @@
-package co.edu.poli.repository;
+package co.edu.JdA.repository;
 
-import co.edu.poli.entity.OrderEntity;
+import co.edu.JdA.entity.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package co.edu.poli.exception;
+package co.edu.JdA.exception;
 
 /**
  * Custom exception thrown when an attempt is made to create or use a duplicate ID.

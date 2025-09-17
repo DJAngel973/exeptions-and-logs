@@ -1,4 +1,4 @@
-package co.edu.poli.exception;
+package co.edu.JdA.exception;
 
 /**
  * Custom exception thrown when an order is not found in the system.

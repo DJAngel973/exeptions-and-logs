@@ -1,4 +1,4 @@
-package co.edu.poli.DTO;
+package co.edu.JdA.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

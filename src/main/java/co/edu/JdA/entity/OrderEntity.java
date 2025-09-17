@@ -1,4 +1,4 @@
-package co.edu.poli.entity;
+package co.edu.JdA.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

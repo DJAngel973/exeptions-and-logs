@@ -1,18 +1,18 @@
-package co.edu.poli.controller;
+package co.edu.JdA.controller;
 
-import co.edu.poli.DTO.ClientResponseDTO;
-import co.edu.poli.entity.ClientEntity;
-import co.edu.poli.exception.IdDuplicadoException;
-import co.edu.poli.exception.InvalidDataException;
-import co.edu.poli.service.ClientService;
-import co.edu.poli.service.OrderService;
+import co.edu.JdA.DTO.ClientResponseDTO;
+import co.edu.JdA.entity.ClientEntity;
+import co.edu.JdA.exception.IdDuplicadoException;
+import co.edu.JdA.exception.InvalidDataException;
+import co.edu.JdA.service.ClientService;
+import co.edu.JdA.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import co.edu.poli.DTO.ClientCreationDTO;
+import co.edu.JdA.DTO.ClientCreationDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;

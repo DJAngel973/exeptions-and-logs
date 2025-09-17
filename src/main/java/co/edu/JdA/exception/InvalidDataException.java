@@ -1,4 +1,4 @@
-package co.edu.poli.exception;
+package co.edu.JdA.exception;
 
 /**
  * Custom exception thrown when data provided for an operation is invalid or malformed.

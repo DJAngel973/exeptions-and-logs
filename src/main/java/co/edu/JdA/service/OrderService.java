@@ -1,11 +1,11 @@
-package co.edu.poli.service;
+package co.edu.JdA.service;
 
-import co.edu.poli.entity.ClientEntity;
-import co.edu.poli.exception.ClientNotFoundException;
-import co.edu.poli.exception.IdDuplicadoException;
-import co.edu.poli.exception.InvalidDataException;
-import co.edu.poli.exception.OrderNotFoundException;
-import co.edu.poli.DTO.ClientResponseDTO;
+import co.edu.JdA.entity.ClientEntity;
+import co.edu.JdA.exception.ClientNotFoundException;
+import co.edu.JdA.exception.IdDuplicadoException;
+import co.edu.JdA.exception.InvalidDataException;
+import co.edu.JdA.exception.OrderNotFoundException;
+import co.edu.JdA.DTO.ClientResponseDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

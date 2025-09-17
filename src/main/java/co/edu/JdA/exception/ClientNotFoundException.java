@@ -1,4 +1,4 @@
-package co.edu.poli.exception;
+package co.edu.JdA.exception;
 
 /**
  * Custom exception thrown when a client is not found in the system.
