@@ -1,0 +1,67 @@
+@startuml
+package "co.edu.JdA.entity" {
+    class ClientEntity {
+        - String id
+        - String name
+        - String email
+    }
+    class OrderEntity {
+        - String id
+        - LocalDate date
+        - Double total
+        - List<String> details
+    }
+}
+
+package "co.edu.JdA.DTO" {
+    class ClientResponseDTO {
+        - String orderId
+        - String clientId
+        - LocalDate date
+        - Double total
+        - List<String> details
+    }
+    class ClientCreationDTO {
+        - String name
+        - String email
+    }
+}
+
+package "co.edu.JdA.service" {
+    class ClientService {
+        + searchClient(String clientId)
+        + createClient(ClientCreationDTO dto)
+    }
+    class OrderService {
+        + createOrder(String ClientId, List<String> details)
+        + getOrder(String orderId)
+    }
+}
+
+package "co.edu.JdA.repository" {
+    interface ClientRepository
+    interface OrderRepository
+}
+
+package "co.edu.JdA.controller" {
+    class OrderSystemController {
+        + createOrder(String clientId, List<String> details
+        + getOrder(String orderId)
+    }
+}
+
+package "co.edu.JdA.exception" {
+    class ClientNotFoundException
+    class IdDuplicadoException
+    class InvalidDataException
+    class OrderNotFoundException
+}
+
+' Relaciones
+ClientService --> ClientRepository
+OrderService --> OrderRepository
+OrderService --> ClientService
+OrderSystemController --> OrderService
+OrderSystemController --> ClientService
+OrderEntity --> ClientEntity
+@enduml
