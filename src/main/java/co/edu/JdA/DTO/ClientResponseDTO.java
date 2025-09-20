@@ -29,6 +29,14 @@ public class ClientResponseDTO {
     private String email;
     private LocalDate date;
 
+    /**
+     * Converts a {@link ClientEntity} object into a {@code ClientResponseDTO}.
+     * This method acts as a factory method to map the entity to its corresponding DTO,
+     * ensuring a clear separation of concerns between the persistence and presentation layers.
+     *
+     * @param entity The {@link ClientEntity} to be converted.
+     * @return A {@code ClientResponseDTO} containing the mapped data.
+     */
     public static ClientResponseDTO fromEntity(ClientEntity entity) {
         return new ClientResponseDTO(
                 entity.getId(),
