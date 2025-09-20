@@ -79,7 +79,7 @@ public class OrderSystemController {
 
             // Map each ClientEntity to a ClientResponseDto using the Stream API
             List<ClientResponseDTO> responseList = clients.stream()
-                    .map(client -> new ClientResponseDTO(client.getId(), client.getName(), client.getEmail(), client.getRegistrationDate()))
+                    .map(ClientResponseDTO::fromEntity)
                     .collect(Collectors.toList());
 
             return new ResponseEntity<>(responseList, HttpStatus.OK);

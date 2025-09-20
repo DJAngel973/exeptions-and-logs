@@ -90,7 +90,7 @@ public class ClientService {
             log.warn("Cliente con ID {} no encontrado.", id);
             throw new ClientNotFoundException(String.format("Cliente con ID %s no encontrado.",id));
         }
-        log.info("Cliente con ID {} no encontrado.", id);
+        log.info("Cliente con ID {} encontrado.", id);
         return client.get();
     }
 

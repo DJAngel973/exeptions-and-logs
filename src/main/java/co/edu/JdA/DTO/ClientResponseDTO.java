@@ -1,5 +1,6 @@
 package co.edu.JdA.DTO;
 
+import co.edu.JdA.entity.ClientEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,15 @@ import java.time.LocalDate;
 public class ClientResponseDTO {
     private String id;
     private String name;
+    private String email;
     private LocalDate date;
-    private Double total;
-    private String details;
+
+    public static ClientResponseDTO fromEntity(ClientEntity entity) {
+        return new ClientResponseDTO(
+                entity.getId(),
+                entity.getName(),
+                entity.getEmail(),
+                entity.getRegistrationDate()
+        );
+    }
 }
