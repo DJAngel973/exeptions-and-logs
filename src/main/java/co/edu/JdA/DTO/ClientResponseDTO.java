@@ -28,6 +28,8 @@ public class ClientResponseDTO {
     private String name;
     private String email;
     private LocalDate date;
+    private Double total;
+    private String details;
 
     /**
      * Converts a {@link ClientEntity} object into a {@code ClientResponseDTO}.
@@ -35,14 +37,22 @@ public class ClientResponseDTO {
      * ensuring a clear separation of concerns between the persistence and presentation layers.
      *
      * @param entity The {@link ClientEntity} to be converted.
+     * @param total The total amount associated with the client.
+     * @param details Additonal details about the client.
      * @return A {@code ClientResponseDTO} containing the mapped data.
      */
-    public static ClientResponseDTO fromEntity(ClientEntity entity) {
+    public static ClientResponseDTO fromEntity(ClientEntity entity, Double total, String details) {
+        // Aseguramos que los tipos sean explícitos
+        Double validatedTotal = total != null ? total : 0.0;
+        String validatedDetails = details != null ? details : "";
+
         return new ClientResponseDTO(
                 entity.getId(),
                 entity.getName(),
                 entity.getEmail(),
-                entity.getRegistrationDate()
+                entity.getRegistrationDate(),
+                validatedTotal,
+                validatedDetails
         );
     }
 }

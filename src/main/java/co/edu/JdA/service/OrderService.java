@@ -60,7 +60,7 @@ public class OrderService {
             log.warn("ID de pedido duplicado generado: {}", orderId);
             throw new IdDuplicadoException("ID del pedido generado duplicado. Intente de nuevo.");
         }
-        ClientResponseDTO newOrder = new ClientResponseDTO(orderId, clientId, LocalDate.now(),total, String.join(", ", details));
+        ClientResponseDTO newOrder = new ClientResponseDTO(orderId, clientId, existingClient.getEmail(), LocalDate.now(), total, String.join(", ", details));
         orders.put(orderId, newOrder);
         log.info("Pedido {} creado exitosamente para el cliente {}", orderId, clientId);
         return newOrder;
