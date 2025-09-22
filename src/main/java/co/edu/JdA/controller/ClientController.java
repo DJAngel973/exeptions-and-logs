@@ -84,10 +84,10 @@ public class ClientController {
             return new ResponseEntity<>(responseDTO, HttpStatus.OK);
         } catch (ClientNotFoundException err) {
             // It the client is not found, a 404 error is retured.
-            log.warn("No se encontró el cliente con ID {}: {}", id. err.getMessage());
+            log.warn("No se encontró el cliente con ID {}: {}", id, err.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }  catch (Exception err) {
-        // 5. Para cualquier otro error, devuelve un error 500.
+        // For any other error, return a 500 error.
         log.error("Error inesperado al buscar cliente con ID {}: {}", id, err.getMessage());
         return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // 500 Internal Server Error
         }

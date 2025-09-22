@@ -55,4 +55,8 @@ public class ClientResponseDTO {
                 validatedDetails
         );
     }
+    // Overloading for when you only have the ClientEntity.
+    public static ClientResponseDTO fromEntity(ClientEntity entity) {
+        return fromEntity(entity, 0.0, "");
+    }
 }
