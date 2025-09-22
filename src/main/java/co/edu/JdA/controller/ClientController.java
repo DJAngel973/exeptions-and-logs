@@ -2,6 +2,7 @@ package co.edu.JdA.controller;
 
 import co.edu.JdA.DTO.ClientResponseDTO;
 import co.edu.JdA.entity.ClientEntity;
+import co.edu.JdA.exception.ClientNotFoundException;
 import co.edu.JdA.exception.IdDuplicadoException;
 import co.edu.JdA.exception.InvalidDataException;
 import co.edu.JdA.service.ClientService;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import co.edu.JdA.DTO.ClientCreationDTO;
@@ -28,13 +30,13 @@ import java.util.stream.Collectors;
  * */
 @RestController
 @RequestMapping("api/clientes")
-public class OrderSystemController {
-    private static final Logger log = LoggerFactory.getLogger(OrderSystemController.class);
+public class ClientController {
+    private static final Logger log = LoggerFactory.getLogger(ClientController.class);
     private final ClientService clientService;
     private final OrderService orderService;
 
     @Autowired
-    public OrderSystemController(ClientService clientService, OrderService orderService) {
+    public ClientController(ClientService clientService, OrderService orderService) {
         this.clientService = clientService;
         this.orderService = orderService;
     }
@@ -62,6 +64,32 @@ public class OrderSystemController {
         }catch (Exception err) {
             log.error("Error inesperado al registrar cliente: {}", err.getMessage());
             return new ResponseEntity<>("Error interno del servidor.", HttpStatus.INTERNAL_SERVER_ERROR); // 500
+        }
+    }
+
+    /**
+     * Endopoint to search for a client by their ID.
+     * @param id The ID of the client to search for, passed in the URL path.
+     * @return A ResponseEntity containing the client dara or an error messagt.
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientResponseDTO> searchClientById(@PathVariable String id) {
+        log.info("Iniciando bùsquedad de cliente con ID: {}", id);
+        try {
+            // Call the service to search for the client's entity.
+            ClientEntity clientEntity = clientService.searchClient(id);
+            // Converts the entity to a DTO for the response.
+            ClientResponseDTO responseDTO = ClientResponseDTO.fromEntity(clientEntity);
+            // Returns the DTO with a 200 OK status
+            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+        } catch (ClientNotFoundException err) {
+            // It the client is not found, a 404 error is retured.
+            log.warn("No se encontró el cliente con ID {}: {}", id. err.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }  catch (Exception err) {
+        // 5. Para cualquier otro error, devuelve un error 500.
+        log.error("Error inesperado al buscar cliente con ID {}: {}", id, err.getMessage());
+        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // 500 Internal Server Error
         }
     }
 
