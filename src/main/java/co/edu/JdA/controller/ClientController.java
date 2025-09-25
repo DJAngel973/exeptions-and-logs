@@ -116,7 +116,16 @@ public class ClientController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // 500
         }
     }
-    
+
+    /**
+     * Delete a client by their ID
+     * <p>
+     *     This endpoint deletes a client corresponding to the ID provided in the URL.
+     *     If the client does not exist, respond with 404. If the deletion is successful, respond with 200.
+     * </p>
+     * @param id The ID of the client to be deleted
+     * @return A message indicating the result of the operation.
+     * */
     @DeleteMapping
     public ResponseEntity<String> deleteClient(@PathVariable String id) {
         log.info("Solicitud para eliminar cliente con ID: {}", id);
