@@ -68,9 +68,9 @@ public class ClientController {
     }
 
     /**
-     * Endopoint to search for a client by their ID.
+     * Endpoint to search for a client by their ID.
      * @param id The ID of the client to search for, passed in the URL path.
-     * @return A ResponseEntity containing the client dara or an error messagt.
+     * @return A ResponseEntity containing the client dara or an error message.
      */
     @GetMapping("/{id}")
     public ResponseEntity<ClientResponseDTO> searchClientById(@PathVariable String id) {

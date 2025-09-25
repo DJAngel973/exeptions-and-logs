@@ -4,6 +4,8 @@ services:
     container_name: inventory-manager-app
     ports:
       - "8080:8080"
+    volumes:
+      - ./logs:/app/logs
     depends_on:
       db:
         # Esta condición hace que el servicio 'app' espere a que 'db' esté listo.
