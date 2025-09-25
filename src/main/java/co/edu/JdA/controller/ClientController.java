@@ -116,4 +116,19 @@ public class ClientController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // 500
         }
     }
+    
+    @DeleteMapping
+    public ResponseEntity<String> deleteClient(@PathVariable String id) {
+        log.info("Solicitud para eliminar cliente con ID: {}", id);
+        try {
+            clientService.deleteClient(id);
+            return new ResponseEntity<>("Cliente eliminado exitosamente.", HttpStatus.OK);
+        } catch (ClientNotFoundException err) {
+            log.warn("No se encontró el cliente con ID {}: {}", id, err.getMessage());
+            return new ResponseEntity<>(err.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception err) {
+            log.error("Error inesperado al eliminar cliente con ID {}: {}", id, err.getMessage());
+            return new ResponseEntity<>("Error interno del servidor.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
