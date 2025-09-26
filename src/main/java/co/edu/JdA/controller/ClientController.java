@@ -133,13 +133,31 @@ public class ClientController {
             clientService.deleteClient(id);
             return new ResponseEntity<>("Cliente eliminado exitosamente.", HttpStatus.OK);
         } catch (ClientNotFoundException err) {
-            log.warn("No se encontró el cliente con ID {}: {}", id, err.getMessage());
+            log.warn("No esta el cliente con ID {}: {}", id, err.getMessage());
             return new ResponseEntity<>(err.getMessage(), HttpStatus.NOT_FOUND);
         }catch (InvalidDataException err) {
             log.error("Error al eliminar el cliente: {}", err.getMessage());
             return new ResponseEntity<>(err.getMessage(), HttpStatus.BAD_REQUEST); // 400
         } catch (Exception err) {
             log.error("Error inesperado al eliminar cliente con ID {}: {}", id, err.getMessage());
+            return new ResponseEntity<>("Error interno del servidor.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateClient(@PathVariable String id, @RequestBody ClientCreationDTO clientDTO) {
+        log.info("Solicitud para actualizar cliente con ID: {}", id);
+        try {
+            clientService.updateClient(id, clientDTO);
+            return new ResponseEntity<>("Cliente actualizado exitosamente.", HttpStatus.OK);
+        } catch (ClientNotFoundException err) {
+            log.warn("No esta el cliente con ID {}: {}", id, err.getMessage());
+            return new ResponseEntity<>(err.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (InvalidDataException err) {
+            log.error("Error al actualizar el cliente: {}", err.getMessage());
+            return new ResponseEntity<>(err.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception err) {
+            log.error("Error inesperado al actualizar cliente con ID {}: {}", id, err.getMessage());
             return new ResponseEntity<>("Error interno del servidor.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -125,4 +125,25 @@ public class ClientService {
         log.info("Cliente con ID {} eliminado exitosamente.", id);
         return clientOpt.get();
     }
+
+    public ClientEntity updateClient(String id, ClientCreationDTO clientDTO) throws ClientNotFoundException, InvalidDataException {
+        log.info("Actualización cliente con ID: {}", id);
+        if(id == null || id.trim().isEmpty()) {
+            log.error("ID de cliente nulo o vacìo en actualización.");
+            throw new InvalidDataException("El ID del cliente no puede ser nulo o vacío.");
+        }
+        Optional<ClientEntity> clientOpt = clientRepository.findById(id);
+        if(clientOpt.isEmpty()) {
+            log.warn("Cliente con ID {} no encontrado para actualizar.", id);
+            throw new ClientNotFoundException(String.format("Cliente con ID %s no encontrado.", id));
+        }
+        ClientEntity client = clientOpt.get();
+        // Update the allowed fields
+        client.setName(clientDTO.getName());
+        client.setEmail(clientDTO.getEmail());
+        // Registration date and ID are not updated
+        ClientEntity updatedClient = clientRepository.save(client);
+        log.info("Cliente con ID {} actualizado exitosamente.", id);
+        return updatedClient;
+    }
 }
