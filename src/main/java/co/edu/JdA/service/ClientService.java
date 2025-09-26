@@ -102,4 +102,27 @@ public class ClientService {
         log.info("Listando todos los clientes.");
         return clientRepository.findAll();
     }
+
+    /**
+     * Delete a client by their ID
+     * @param id The ID of the client to be deleted.
+     * @return The deleted client
+     * @throws InvalidDataException if the ID is null or empty.
+     * @throws ClientNotFoundException if the client does not exist.
+     * */
+    public ClientEntity deleteClient(String id) throws ClientNotFoundException {
+        log.info("Eliminando el cliente con ID: {}", id);
+        if(id == null || id.trim().isEmpty()) {
+            log.error("ID de cliente nulo o vacío.");
+            throw new InvalidDataException("El ID del cliente no puede ser nulo o vació.");
+        }
+        Optional<ClientEntity> clientOpt = clientRepository.findById(id);
+        if(clientOpt.isEmpty()) {
+            log.warn("Cliente con ID {} no se encontro para eliminar.", id);
+            throw new ClientNotFoundException(String.format("Cliente con ID %s no encontrado.", id));
+        }
+        clientRepository.deleteById(id);
+        log.info("Cliente con ID {} eliminado exitosamente.", id);
+        return clientOpt.get();
+    }
 }

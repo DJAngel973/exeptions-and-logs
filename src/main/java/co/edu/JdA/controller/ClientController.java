@@ -126,7 +126,7 @@ public class ClientController {
      * @param id The ID of the client to be deleted
      * @return A message indicating the result of the operation.
      * */
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteClient(@PathVariable String id) {
         log.info("Solicitud para eliminar cliente con ID: {}", id);
         try {
@@ -135,6 +135,9 @@ public class ClientController {
         } catch (ClientNotFoundException err) {
             log.warn("No se encontró el cliente con ID {}: {}", id, err.getMessage());
             return new ResponseEntity<>(err.getMessage(), HttpStatus.NOT_FOUND);
+        }catch (InvalidDataException err) {
+            log.error("Error al eliminar el cliente: {}", err.getMessage());
+            return new ResponseEntity<>(err.getMessage(), HttpStatus.BAD_REQUEST); // 400
         } catch (Exception err) {
             log.error("Error inesperado al eliminar cliente con ID {}: {}", id, err.getMessage());
             return new ResponseEntity<>("Error interno del servidor.", HttpStatus.INTERNAL_SERVER_ERROR);
