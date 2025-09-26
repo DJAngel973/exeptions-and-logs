@@ -126,6 +126,18 @@ public class ClientService {
         return clientOpt.get();
     }
 
+    /**
+     * Updates the data of an existing client.
+     * <p>
+     *     Searches for the client by its ID and updates the allowed fields (name and email)
+     *     with the values provided in the DTO. Does not modify the ID or registration date.
+     * </p>
+     * @param id The ID of the client to update.
+     * @param clientDTO DTO with the new client data.
+     * @return The updated client.
+     * @throws ClientNotFoundException if the client does not exist.
+     * @throws InvalidDataException if the ID is null or empty.
+     * */
     public ClientEntity updateClient(String id, ClientCreationDTO clientDTO) throws ClientNotFoundException, InvalidDataException {
         log.info("Actualización cliente con ID: {}", id);
         if(id == null || id.trim().isEmpty()) {

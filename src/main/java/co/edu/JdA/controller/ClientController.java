@@ -144,6 +144,16 @@ public class ClientController {
         }
     }
 
+    /**
+     * Endpoint to update the data of an existing client.
+     * <p>
+     *     Receives the client ID in the  URL and the new data in the request body.
+     *     Returns a message indicating the result of the operation.
+     * </p>
+     * @param id The ID of the client to update.
+     * @param clientDTO DTO with the new client data.
+     * @return Success or error message depending on the result.
+     * */
     @PutMapping("/{id}")
     public ResponseEntity<String> updateClient(@PathVariable String id, @RequestBody ClientCreationDTO clientDTO) {
         log.info("Solicitud para actualizar cliente con ID: {}", id);
