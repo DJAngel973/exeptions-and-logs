@@ -1,6 +1,7 @@
 package co.edu.JdA.controller;
 
 import co.edu.JdA.DTO.OrderCreateDTO;
+import co.edu.JdA.exception.ClientNotFoundException;
 import co.edu.JdA.exception.IdDuplicadoException;
 import co.edu.JdA.exception.InvalidDataException;
 import co.edu.JdA.service.OrderService;
@@ -25,17 +26,23 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    /**
+     * Registers a new order in the system.
+     * @param orderDTO The DTO containing the order data (clientId, total, details).
+     * @return A {@link ResponseEntity} with a success message and status 201 (Created).
+     * In case of an error, returns an appropriate status code and message.
+     * */
     @PostMapping("/registrar")
     public ResponseEntity<String> registerOrder (@RequestBody OrderCreateDTO orderDTO) {
         log.info("Creando orden para el cliente: {}", orderDTO.getClientId());
         try {
-            orderService.createOrder(orderDTO, orderDTO.getClientId());
+            orderService.createOrder(orderDTO.getClientId(), orderDTO.getTotal(), orderDTO.getDetails());
             return new ResponseEntity<>("Orden creada exitosamente", HttpStatus.CREATED);
         } catch (IdDuplicadoException error) {
             log.error("Error al registrar orden: {}", error.getMessage());
             return new ResponseEntity<>(error.getMessage(), HttpStatus.CONFLICT);
-        } catch (InvalidDataException error) {
-            log.error("Error al registrar la orden: {}", error.getMessage());
+        } catch (InvalidDataException | ClientNotFoundException error) {
+            log.error("Error al registrar la orden, datos invalidos o cliente no encontrado: {}", error.getMessage());
             return new ResponseEntity<>(error.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception error) {
             log.error("Error inesperado al crear orden: {}", error.getMessage());

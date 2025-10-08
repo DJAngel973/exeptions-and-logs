@@ -3,6 +3,7 @@ package co.edu.JdA.DTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 /**
  * Data Transfer Object (DTO) for creating a new order.
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderCreateDTO {
-    private String id;
-    private String details;
     private String clientId;
+    private Double total;
+    private List<String> details;
 }
