@@ -42,7 +42,7 @@ public class ClientController {
     }
 
     /**
-     * Endpoint to register a new client using a DTO..
+     * Endpoint to register a new client using a DTO
      * The client data is received in the request body as a JSON object.
      * @param clientDTO The Client object from the request body.
      * @return A message indicating success.
@@ -74,7 +74,7 @@ public class ClientController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<ClientResponseDTO> searchClientById(@PathVariable String id) {
-        log.info("Iniciando bùsquedad de cliente con ID: {}", id);
+        log.info("Iniciando búsqueda de cliente con ID: {}", id);
         try {
             // Call the service to search for the client's entity.
             ClientEntity clientEntity = clientService.searchClient(id);
