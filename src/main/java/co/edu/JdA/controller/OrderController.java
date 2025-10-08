@@ -15,6 +15,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * REST controller for managing orders.
+ * <p>
+ * This class exposes a REST API for order-related operations. It handles
+ * incoming HTTP requests, delegates business logic to the {@link OrderService},
+ * and formats the responses to be sent back to the client.
+ * </p>
+ *
+ * @see OrderService
+ * @see OrderCreateDTO
+ */
 @RestController
 @RequestMapping("api/ordenes")
 public class OrderController {
