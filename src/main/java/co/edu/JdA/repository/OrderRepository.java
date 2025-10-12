@@ -4,6 +4,8 @@ import co.edu.JdA.entity.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Repository interface for managing persistence operations for the {@link OrderEntity}.
  * <p>
@@ -20,4 +22,15 @@ import org.springframework.stereotype.Repository;
  * */
 @Repository
 public interface OrderRepository extends JpaRepository<OrderEntity, String> {
+
+    /**
+     * Finds all orders belonging to a specific client.
+     * <p>
+     *     Spring Data JPA automatically generates the query for this method
+     *     based on the method name.
+     * </p>
+     * @param clientId The ID of the client.
+     * @return A list of orders belonging to the specified client.
+     * */
+    List<OrderEntity> findByClientId(String clientId);
 }
