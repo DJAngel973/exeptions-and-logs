@@ -32,7 +32,7 @@ public class OrderResponseDTO {
      * */
     public static OrderResponseDTO fromEntity(OrderEntity entity) {
         List<String> detailsList = entity.getDetails() != null && !entity.getDetails().isEmpty()
-                ? Array.asList(entity.getDetails().split(", "))
+                ? Arrays.asList(entity.getDetails().split(", "))
                 : List.of();
         return new OrderResponseDTO(
                 entity.getId(),
