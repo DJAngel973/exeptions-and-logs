@@ -66,10 +66,13 @@ This project demonstrates the use of Spring Boot to build a REST API for managin
 ## Usage
 
 - **API Endpoints**:
-    - `POST /clients`: Create a new client.
-    - `GET /clients/{id}`: Get details about a client.
-    - `POST /orders`: Create a new service order.
-    - `GET /orders/{id}`: Get details of an order.
+    - `POST /api/clientes/registrar`: Register a new client.
+    - `GET /api/clientes/id`: Get details about a client.
+    - `GET /api/clientes/`: Get list all clients.
+    - `DELETE /api/clientes/id`: Delete client with id.
+    - `PUT /api/clientes/id`: Update cliente with id.
+    - `POST /api/ordenes/registrar`: Register a new service order.
+    - `GET /api/ordenes/id`: Get details of an order.
 
 - **Error handling**:
   - `ClientNotFoundException`: It is launched when a client is not found.
@@ -85,10 +88,13 @@ src/
 │   ├── java/co/edu/JdA/
 │   │   ├── Main.java
 │   │   ├── controller/
-│   │   │   └── OrderSystemController.java
+│   │   │   ├── ClientController.java
+│   │   │   └── OrderController.java
 │   │   ├── DTO/
 │   │   │   ├── ClientCreationDTO.java
-│   │   │   └── ClientResponseDTO.java
+│   │   │   ├── ClientResponseDTO.java
+│   │   │   ├── OrderCreateDTO.java
+│   │   │   └── OrderResponseDTO.java
 │   │   ├── entity/
 │   │   │   ├── ClientEntity.java
 │   │   │   └── OrderEntity.java
