@@ -32,3 +32,6 @@ src/main/resources/application.properties
 *~.nib
 local.properties
 .DS_Store # macOS specific
+
+# Múltiples archivos de propiedades (SI recomendado)
+src/main/resources/application-*.properties
