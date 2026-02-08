@@ -47,3 +47,7 @@ build/
 README.md
 docs/
 LICENSE
+
+# Archivos sensibles
+.env
+src/main/resources/application.properties

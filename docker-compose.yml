@@ -18,7 +18,7 @@ services:
   db:
     image: mysql:8.0
     container_name: inventory-BD
-    restart: always
+    restart: no
     ports:
       - "3317:3306"
     volumes:
